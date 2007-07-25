@@ -1,6 +1,6 @@
 %define name	rpmmon
 %define version	0.6.3
-%define release %mkrel 4
+%define release %mkrel 5
 
 Name:		%{name}
 Version:	%{version}
@@ -13,6 +13,7 @@ Source0:	%{name}.pl
 Source1:	%{name}-tut.html
 Source2:	rpmmon.bash_completion
 Patch:		%{name}-0.6.3.mandriva.patch
+Patch1:		rpmmon-0.6.3-maintdb.patch
 Requires:	curl
 BuildArch:	noarch
 Buildroot:	%{_tmppath}/%{name}-%{version}
@@ -41,6 +42,7 @@ Later on, this tool has grown to support additional features:
 cp %{SOURCE0} %{name}
 cp %{SOURCE1} tutorial.html
 %patch
+%patch1 -p1 -b .maintdb
 
 %build
 
