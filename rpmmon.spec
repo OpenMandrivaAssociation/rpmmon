@@ -9,10 +9,10 @@ Summary:	Helps you build better RPMs
 License:	GPL
 Group:		Development/Other
 URL:		http://people.mandrakesoft.com/~gc/html/rpmmon-tut.html
-Source0:	%{name}.pl.bz2
-Source1:	%{name}-tut.html.bz2
-Source2:	rpmmon.bash_completion.bz2
-Patch:		%{name}-0.6.3.mandriva.patch.bz2
+Source0:	%{name}.pl
+Source1:	%{name}-tut.html
+Source2:	rpmmon.bash_completion
+Patch:		%{name}-0.6.3.mandriva.patch
 Requires:	curl
 BuildArch:	noarch
 Buildroot:	%{_tmppath}/%{name}-%{version}
@@ -38,9 +38,8 @@ Later on, this tool has grown to support additional features:
 
 %prep
 %setup -q -c -T -D
-bzcat %{SOURCE0} > %{name}
-bzcat %{SOURCE1} > tutorial.html
-bzcat %{SOURCE2} > bash_completion
+cp %{SOURCE0} %{name}
+cp %{SOURCE1} tutorial.html
 %patch
 
 %build
@@ -50,7 +49,7 @@ rm -rf %{buildroot}
 install -d -m 755 %{buildroot}%{_bindir}
 install -d -m 755 %{buildroot}%{_sysconfdir}/bash_completion.d
 install -m 755 %{name} %{buildroot}%{_bindir}
-install -m 644 bash_completion %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
+install -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
 
 %clean
 rm -rf %{buildroot}
