@@ -16,7 +16,6 @@ Patch:		%{name}-0.6.3.mandriva.patch
 Patch1:		rpmmon-0.6.3-maintdb.patch
 Requires:	curl
 BuildArch:	noarch
-Buildroot:	%{_tmppath}/%{name}-%{version}
 
 %description
 In order to produce a quality Gnu/Linux distribution based on RPM, you
