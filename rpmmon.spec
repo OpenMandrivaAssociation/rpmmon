@@ -8,7 +8,7 @@ Release:	%{release}
 Summary:	Helps you build better RPMs
 License:	GPL
 Group:		Development/Other
-URL:		http://people.mandrakesoft.com/~gc/html/rpmmon-tut.html
+URL:		http://www.zarb.org/~gc/html/rpmmon-tut.html
 Source0:	%{name}.pl
 Source1:	%{name}-tut.html
 Source2:	rpmmon.bash_completion
