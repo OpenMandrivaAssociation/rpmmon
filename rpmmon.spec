@@ -1,6 +1,6 @@
 %define name	rpmmon
 %define version	0.6.3
-%define release %mkrel 5
+%define release %mkrel 7
 
 Name:		%{name}
 Version:	%{version}
