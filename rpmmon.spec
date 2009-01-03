@@ -1,10 +1,6 @@
-%define name	rpmmon
-%define version	0.6.3
-%define release %mkrel 7
-
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
+Name:		rpmmon
+Version:	0.6.3
+Release:	%mkrel 8
 Summary:	Helps you build better RPMs
 License:	GPL
 Group:		Development/Other
@@ -12,8 +8,9 @@ URL:		http://www.zarb.org/~gc/html/rpmmon-tut.html
 Source0:	%{name}.pl
 Source1:	%{name}-tut.html
 Source2:	rpmmon.bash_completion
-Patch:		%{name}-0.6.3.mandriva.patch
+Patch0:		%{name}-0.6.3.mandriva.patch
 Patch1:		rpmmon-0.6.3-maintdb.patch
+Patch2:		rpmmon-0.6.3-curl-ssl.patch
 Requires:	curl
 BuildArch:	noarch
 Buildroot:	%{_tmppath}/%{name}-%{version}
@@ -41,8 +38,9 @@ Later on, this tool has grown to support additional features:
 %setup -q -c -T -D
 cp %{SOURCE0} %{name}
 cp %{SOURCE1} tutorial.html
-%patch
+%patch0
 %patch1 -p1 -b .maintdb
+%patch2 -p0
 
 %build
 
