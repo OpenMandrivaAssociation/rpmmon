@@ -1,6 +1,6 @@
 Name:		rpmmon
 Version:	0.6.3
-Release:	%mkrel 8
+Release:	%mkrel 9
 Summary:	Helps you build better RPMs
 License:	GPL
 Group:		Development/Other
