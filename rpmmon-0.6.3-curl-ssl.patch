@@ -1,0 +1,11 @@
+--- rpmmon	2009-01-03 05:48:31.000000000 +0000
++++ rpmmon.pl	2009-01-03 06:15:33.000000000 +0000
+@@ -164,7 +164,7 @@
+     if (!$is_okay) {
+ 	my $curlv = `curl --version`;
+ 	$curlv =~ /curl/ or die "You need `curl' binary for HTTP download\n";
+-	$curlv =~ /OpenSSL/ or die "You need an OpenSSL-enabled curl to support encrypted URLs.\n";
++	$curlv =~ /SSL/ or die "You need an OpenSSL-enabled curl to support encrypted URLs.\n";
+ 	$is_okay = 1;
+     }
+     return `curl -s $url`;

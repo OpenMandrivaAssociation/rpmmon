@@ -1,0 +1,22 @@
+--- rpmmon-0.6.3/rpmmon.maintdb	2007-07-25 15:54:00.000000000 +0200
++++ rpmmon-0.6.3/rpmmon	2007-07-25 16:02:29.000000000 +0200
+@@ -22,8 +22,8 @@ $program_name = 'rpmmon';
+ $author = 'Guillaume Cottenceau <gc at mandriva dot com>';
+ $version = '0.6.3';
+ 
+-$url_maints =        'http://qa.mandriva.com/cgi-bin/maints.cgi';
+-$url_maints_source = 'http://qa.mandriva.com/cgi-bin/srpmmaints.cgi';
++$url_maints =        'http://maintainers.mandriva.com/cgi-bin/maints.cgi';
++$url_maints_source = 'http://maintainers.mandriva.com/cgi-bin/srpmmaints.cgi';
+ $url_cds =           'http://qa.mandriva.com/cooker.cd';
+ 
+ 
+@@ -334,7 +334,7 @@ sub calc_packages_responsible_for
+     puts "Packages for $who are:";
+ 
+     maint_equals($package2maintainer{$_}, $who) and addpackage($_) foreach keys %package2maintainer;
+-    @packages_responsible or fail_with_message("No packages found for user $who in list provided by QA.");
++    @packages_responsible or fail_with_message("No packages found for user $who in list provided by maintainers database.");
+     puts $_ foreach @packages_responsible;
+ }
+ 

@@ -1,0 +1,54 @@
+--- rpmmon	2005-07-28 16:14:58.269065927 +0200
++++ rpmmon.new	2005-07-28 16:15:06.504331392 +0200
+@@ -1,6 +1,6 @@
+ #!/usr/bin/perl
+ #
+-# rpmmon  by Guillaume Cottenceau <gc at mandrakesoft dot com>
++# rpmmon  by Guillaume Cottenceau <gc at mandriva dot com>
+ #
+ # Copyright (c) 2000-2001 by MandrakeSoft
+ #
+@@ -11,7 +11,7 @@
+ # See the GNU General Public License for more details.
+ #
+ #
+-# http://people.mandrakesoft.com/~gc/html/rpmmon-tut.html
++# http://people.mandriva.com/~gc/html/rpmmon-tut.html
+ #
+ 
+ use File::Find;
+@@ -19,12 +19,12 @@
+ use vars qw($program_name $author $version $rcfile $url_maints $url_maints_source $url_cds @modes @opts @mount_points %my_packages %current_version %current_release %package2maintainer %package2cd $verbose $more_options $show_version $tell_freshmeat_info $source $who $mount_point $package_name @packages_responsible $url_maintainers);
+ 
+ $program_name = 'rpmmon';
+-$author = 'Guillaume Cottenceau <gc at mandrakesoft dot com>';
++$author = 'Guillaume Cottenceau <gc at mandriva dot com>';
+ $version = '0.6.3';
+ 
+-$url_maints =        'http://qa.mandrakesoft.com/cgi-bin/maints.cgi';
+-$url_maints_source = 'http://qa.mandrakesoft.com/cgi-bin/srpmmaints.cgi';
+-$url_cds =           'http://qa.mandrakesoft.com/cooker.cd';
++$url_maints =        'http://qa.mandriva.com/cgi-bin/maints.cgi';
++$url_maints_source = 'http://qa.mandriva.com/cgi-bin/srpmmaints.cgi';
++$url_cds =           'http://qa.mandriva.com/cooker.cd';
+ 
+ 
+ #--------------------------------------------------
+@@ -101,7 +101,7 @@
+     puts();
+     $more_options or puts ">>> Use option -h for more details. <<<";
+     $more_options and puts ">>> For a short tutorial, you may visit:                    <<<\n",
+-                           ">>> http://people.mandrakesoft.com/~gc/html/rpmmon-tut.html <<<\n";
++                           ">>> http://people.mandriva.com/~gc/html/rpmmon-tut.html <<<\n";
+ }
+ 
+ sub show_more_options { $more_options = 1; show_options() }
+@@ -640,7 +640,7 @@
+ #   - remove all mdk specializations, become distro generic
+ #   - enable multiple mountpoints (so we can use Cooker and Contrib for example)
+ #   - enable package maintainers alternative source (url or local file)
+-#   - write a short tutorial at http://people.mandrakesoft.com/~gc/html/rpmmon-tut.html
++#   - write a short tutorial at http://people.mandriva.com/~gc/html/rpmmon-tut.html
+ #   - clean (try to pixelize) code to ease further release
+ #
+ # 0.3.1 Fri Jun  8 19:08:31 2001
