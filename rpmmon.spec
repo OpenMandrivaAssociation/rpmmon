@@ -59,3 +59,58 @@ rm -rf %{buildroot}
 %doc tutorial.html
 %{_bindir}/%{name}
 %config(noreplace) %{_sysconfdir}/bash_completion.d/%{name}
+
+
+%changelog
+* Tue Sep 15 2009 Thierry Vignaud <tvignaud@mandriva.com> 0.6.3-9mdv2010.0
++ Revision: 442760
+- rebuild
+
+* Sat Jan 03 2009 Tomasz Pawel Gajc <tpg@mandriva.org> 0.6.3-8mdv2009.1
++ Revision: 323623
+- Patch2: fix checks for SSL support in curl (check for enabled features like SSL which could be provided by gnutls or openssl libraries)
+
+* Wed Jul 23 2008 Thierry Vignaud <tvignaud@mandriva.com> 0.6.3-7mdv2009.0
++ Revision: 242563
+- rebuild
+- kill re-definition of %%buildroot on Pixel's request
+
+  + Nicolas Vigier <nvigier@mandriva.com>
+    - update URL
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+* Wed Jul 25 2007 Olivier Blin <oblin@mandriva.com> 0.6.3-5mdv2008.0
++ Revision: 55302
+- use new maintainers database
+- bunzip sources
+- Import rpmmon
+
+
+
+* Tue Aug 01 2006 Guillaume Rousse <guillomovitch@mandriva.org> 0.6.3-4mdv2007.0
+- %%mkrel
+
+* Thu Jul 28 2005 Guillaume Rousse <guillomovitch@mandriva.org> 0.6.3-3mdk 
+- spec cleanup
+- fix mandriva URLs
+
+* Thu Jul 22 2004 Guillaume Rousse <guillomovitch@mandrake.org> 0.6.3-2mdk 
+- noraple option for bash-completion file
+
+* Thu Dec 11 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 0.6.3-1mdk
+- new version
+
+* Mon Aug 25 2003 Guillaume Rousse <guillomovitch@linux-mandrake.com> 0.6.0-2mdk
+- requires curl (fix bug #4228)
+
+* Fri May 16 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 0.6.0-1mdk
+- new version for lord grousse
+
+* Sat Jan 04 2003 Guillaume Rousse <g.rousse@linux-mandrake.com> 0.5-0.beta.2mdk
+- rebuild
+
+* Wed Sep 04 2002 Guillaume Rousse <g.rousse@linux-mandrake.com> 0.5-0.beta.1mdk
+- first mdk release :-)
+- bash completion

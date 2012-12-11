@@ -1,0 +1,433 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>rpmmon-tut</title>
+<link rev="made" href="mailto:gc at mandranokespamsoft dot com" />
+<meta name="keywords" content="rpm, build, rpmlint, maintainer, quality" />
+<meta name="description" content="The rpmmon project" />
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0000ee" vlink="#551a8b">
+
+  <h1 align="center">rpmmon-tut</h1>
+
+
+<hr />
+	<h2>Purpose</h2>
+
+	<p>
+	In order to produce a quality Gnu/Linux distribution based on <a
+	href="http://www.rpm.org/">RPM</a>, you need some tools which will
+	facilitate the maintainance of the RPM packages you are maintainer
+	of. This is the aim of `rpmmon'.
+	</p>
+
+	<p>
+        For that purpose, the first task performed by rpmmon is to
+	monitor what has been announced on <a
+	href="http://freshmeat.net/">Freshmeat</a>, and try to guess if
+	the package in the distro you're developing is older.
+	</p>
+
+	<p>
+	Later on, this tool has grown to support additional features:
+	</p>
+	<ul>
+	<li>get the list of packages you're responsible for, either
+	in a static oriented way (a local file) or more dynamically (an
+	URL, for example the results of a CGI script from the QA of your
+	distro's company)</li>
+	<li>hence, provide an easy (e.g. command-line) interface to
+	quickly know who's maintainer of a given package</li>
+	<li>reversely, provide an easy interface to know what packages a
+	given person is responsible for</li>
+	<li>try to find automatically on Freshmeat the good project page
+	going along a given RPM package</li>
+	<li>runs <a href="http://www.lepied.com/rpmlint/">rpmlint</a> on
+	your packages (rpmlint is a rpm correctness checker)</li>
+	</ul>
+
+<hr />
+       <h2>Short tutorial</h2>
+
+	<p>
+	`rpmmon' is a Perl script you will run on your command-line. You
+	may get the latest version <a
+	href="../resource/rpmmon.pl">here</a>.
+	</p>
+
+	<p>
+	Ok, once installed on
+	your system, try to run it:
+	</p>
+
+	<pre>
+[gc@bi ~] rpmmon.pl
+&lt;rpmmon&gt; v0.4.0 helps you build better RPMs.
+
+By Guillaume Cottenceau &lt;gc at mandrakesoft dot com&gt;.
+Copyright (c) 2000-2001 by MandrakeSoft.
+This is free software under the GPL License.
+
+Usage: rpmmon &lt;mode&gt; [options]
+modes:
+  -c            check
+  -l &lt;who&gt;      lint
+  -b &lt;who&gt;      build
+  -a            all
+  -m &lt;mount_point&gt;      mountpoint
+  -p &lt;package_name&gt;     package maintainer
+  -q &lt;who&gt;      query
+  -Q &lt;who&gt;      Query
+  -M            maintainers
+  -u            unmaintained
+  -t &lt;url_maints&gt;               maints source
+  -v            version
+  -h            help
+options:
+  -s            source
+  -i            info
+  -V            verbose
+  -r &lt;rc_file&gt;  use an alternate rc file
+
+&lt;&lt;&lt; Use option -h for more details. &gt;&gt;&gt;
+        </pre>
+
+<hr />
+
+	<p>
+	Of course, you will want to run the <b>-c</b> option to perform
+	the check.
+	</p>
+
+	<pre>
+[gc@bi ~] rpmmon.pl -c
+First, you need to define one mount point for your Development branch.
+This is the directory where the hottest RPM's of your distrib sit, on
+your local system (called Cooker in Mandrake, Rawhide in RedHat). It must
+be a local filesystem. (therefore, it can be NFS, for example)
+
+Use option -m &lt;mount-point&gt;.
+
+That's only needed one time per mountpoint, and allows to specify
+multiple mountpoints (for example if you want to add contrib).
+
+
+Exiting on failure.
+	</pre>
+
+<hr />
+
+	<p>
+	As explained, you need to indicate to the program where it can
+	find the RPM's. This is where the files will be found later on, to
+	perform the lint or other operations. Let's try to give it our
+	local mirror of Rawhide, the development version of RedHat Linux,
+	with the option <b>`-m'</b>.
+	</p>
+
+	<pre>
+[gc@bi ~] rpmmon.pl -m /rawhide/RPMS/
+Adding mount-point in rcfile being: '/rawhide/RPMS/' (if not duplicate)
+You know have:
+        /rawhide/RPMS
+Opening directory /rawhide/RPMS to get the packages filenames...found 992 files.
+[gc@bi ~] rpmmon.pl -c
+No package to mon. You should use option '-b' to build the database.
+Exiting on failure.
+	</pre>
+
+	<p>
+	This has been saved in the rcfile, <tt>~/.rpmmonrc</tt>.
+	</p>
+	
+	<p>
+	Note that you may have multiple mount points, that's why it showed
+	you the list of the set up mount-points. This is useful if you have
+	several directories containing the RPM's, for example the
+	&quot;main&quot; location, and the &quot;contrib&quot; (or
+	&quot;powertools&quot;) location.
+	</p>
+
+<hr />
+
+	<p>
+	As explained again, you still lack the database; this database
+	will make the correspondance between each package name and the
+	relevant Freshmeat project page. You can enter it manually, but of
+	course this wouldn't be fun if our script would not try to be
+	clever and save us some time. Hence the <b>`-b'</b> option.
+	</p>
+
+	<pre>
+[gc@bi ~] rpmmon.pl -b gc
+Packages for gc are:
+libclanlib0-gl
+mkinitrd
+nil
+gtktalog
+SimGear-devel
+gnuplot
+[...]
+
+Contacting host freshmeat.net several times to find entries in their database.
+
+package `libclanlib0-gl'
+       -- 0 projects found --
+
+package `mkinitrd'
+       -- 0 projects found --
+
+package `nil'
+  Directly exists as /projects/nil
+
+package `gtktalog'
+  Directly exists as /projects/gtktalog
+
+package `SimGear-devel'
+       -- 0 projects found --
+
+package `gnuplot'
+  Directly exists as /projects/gnuplot
+
+package `penguin-command'
+       -- 0 projects found --
+[...]
+
+	</pre>
+
+	<p>
+	I voluntarily shortened up the list shown upper; but it may be a
+	bit long if you're maintainer of a large bunch of packages. Of
+	course, the script will fail on packages that are not listed on
+	freshmeat, or when the names are too different. In such a case,
+	you may edit by hand the <tt>~/.rpmmonrc</tt> file to add the
+	missing locations, if you wish.
+	</p>
+
+<hr />
+
+	<p>
+	Let's note that the default location to grab the correspondance
+	between you and the packages you're responsible for, is the
+	world-wide encrypted URL giving package maintainers for the
+	Mandrake Linux distribution. You may change it (it will be saved
+	as well, inside the rcfile, of course) with the <b>-t</b> option:
+	</p>
+
+	<pre>
+[gc@bi ~] rpmmon.pl -t /tmp/maints.list
+Setting the source for maintainers elsewhere. You can provide
+a normal URL (http://..), an encrypted URL (https://..), or a
+local file. You're going to set it up to:
+        /tmp/maints.list
+
+This file must contain lines matching:
+PACKAGE_NAME\s+MAINTAINER_NAME@
+
+For example:
+
+telnet  john@distro.com
+kernel  smith@distro.com
+
+[gc@bi ~] cat /tmp/maints.list 
+transfig  gc@mandrakesoft.com
+hdparm    gc@mandrakesoft.com
+kernel    hacker@mandrakesoft.com
+	</pre>
+
+<hr />
+
+	<p>
+	This is the perfect moment to introduce the <b>`-q'</b> and
+	<b>`-Q'</b> options, which allow to query the packages one is
+	responsible for. The first one is the short version, the second
+	one prints the version and release as well.
+	</p>
+
+	<pre>
+[gc@bi ~] rpmmon.pl -q gc
+hdparm
+transfig
+[gc@bi ~] rpmmon.pl -Q gc
+hdparm-4.1-2
+transfig-3.2.3d-2
+	</pre>
+
+<hr />
+
+	<p>
+	Ok, now that we're set up with the database, let's retry again to
+	run the check against latest versions published on Freshmeat (I
+	reverted the list of maintainers to the whole one, not the one
+	illustrating the <b>`-t'</b> option):
+	</p>
+
+	<pre>
+[gc@bi ~] rpmmon.pl -c
+Maintainer   Package             Our-version Frsh-version
+
+&lt;gc&gt;         SysVinit                   2.78         2.79
+&lt;gc&gt;         python                    1.5.2          2.1
+&lt;gc&gt;         dmalloc                   4.8.1        4.8.2
+&lt;gc&gt;         gkrellm                   1.0.8        1.2.0
+	</pre>
+
+	<p>
+	This presents you all the packages for which Freshmeat got an
+	announce for newer packages that what you currently have in your
+	distro.
+	</p>
+
+<hr />
+
+	<p>
+	The first column, Maintainer, will become particularly useful when
+	you set up a database for your whole company; this is the
+	usefulness of the <b>`-a'</b> option, which builds the database
+	for everyone; of course, this may last one hour or around,
+	depending on the quickness of Freshmeat and the quality of your
+	Internet connectivity.
+	</p>
+
+	<pre>
+[gc@bi ~] rpmmon.pl -a
+
+Contacting host freshmeat.net several times to find entries in their database.
+
+package `Xdialog'
+  Directly exists as /projects/Xdialog
+
+package `lm_sensors-devel'
+       -- 0 projects found --
+
+package `lout-doc'
+       -- 0 projects found --
+
+package `SDL11'
+       -- 0 projects found --
+
+package `wu-ftpd'
+  Directly exists as /projects/wu-ftpd
+
+package `gmp-devel'
+       -- 0 projects found --
+
+package `librep'
+  Directly exists as /projects/librep
+
+package `mod_dav'
+  Directly exists as /projects/mod_dav
+
+[...]
+	</pre>
+
+<hr />
+
+	<p>
+	The <b>`-l'</b> functionality, as described, will run rpmlint on
+	all the packages one is responsible for. We can expect many errors
+	since rpmlint is tuned to tightly fit our distrib's policy, and
+	since I chose to use the packages in Rawhide rather than at
+	Mandrake's, it will generate many irrelevant errors:
+	</p>
+
+	<pre>
+[gc@bi ~] rpmmon.pl -l gc
+W: hdparm invalid-vendor Red Hat, Inc.
+W: hdparm invalid-distribution Red Hat Linux
+W: hdparm manpage-not-bzipped /usr/share/man/man8/hdparm.8.gz
+W: hdparm invalid-packager Red Hat, Inc. &lt;http://bugzilla.redhat.com/bugzilla&gt;
+W: hdparm not-standard-release-extension 2
+W: hdparm non-standard-group Applications/System
+W: hdparm no-version-in-last-changelog
+W: transfig invalid-vendor Red Hat, Inc.
+W: transfig invalid-distribution Red Hat Linux
+W: transfig manpage-not-bzipped /usr/X11R6/man/man1/fig2dev.1x.gz
+W: transfig manpage-not-bzipped /usr/X11R6/man/man1/fig2ps2tex.1x.gz
+W: transfig manpage-not-bzipped /usr/X11R6/man/man1/pic2tpic.1x.gz
+W: transfig manpage-not-bzipped /usr/X11R6/man/man1/transfig.1x.gz
+W: transfig invalid-packager Red Hat, Inc. &lt;http://bugzilla.redhat.com/bugzilla&gt;
+W: transfig not-standard-release-extension 2
+W: transfig non-standard-group Applications/Multimedia
+W: transfig no-version-in-last-changelog
+W: transfig invalid-license distributable
+	</pre>
+
+<hr />
+
+	<p>
+	The <b>`-p'</b> functionality is maybe the most useful mode of
+	rpmmon. It can print out who's maintainer of this package you
+	just found a small bug in, or for which you found a interesting
+	patch or plugin somewhere, etc. All the cases for which you're
+	willing to drop quickly a mail to the maintainer of the package.
+	It supports multiple files in a given query (comma-separated,
+	mandatory), and let's also illustrate the <b>`-V'</b> option that
+	asks for more verbose output. As we're all fond of shell
+	completion, this option also understands packages designated with
+	their filenames, because extensively typing at keyboard something
+	like &quot;xmms-more-vis-plugins-unsafe&quot; is a pain.
+	</p>
+
+	<pre>
+[gc@bi ~] rpmmon.pl -p kdebase
+daouda
+[gc@bi ~] rpmmon.pl -p emacs
+flepied
+[gc@bi ~] rpmmon.pl -p icewm,kdelibs,modutils
+florin
+daouda
+chmouel
+[gc@bi ~] rpmmon.pl -p icewm,kdelibs,modutils -V
+Getting information about packages from: https://qa.mandrakesoft.com/cgi-bin/maints.cgi
+Found maintainers for 3132 different packages.
+icewm: florin
+kdelibs: daouda
+modutils: chmouel
+[gc@bi ~] rpmmon.pl -p /RPMS/xmms-more-vis-plugins-unsafe-1.4.0-2mdk.i586.rpm 
+gc
+[gc@bi ~] rpmmon.pl -p /rawhide/RPMS/octave-2.1.34-3.i386.rpm 
+vince
+        </pre>
+
+       
+<hr />
+        <h2>Author</h2>
+
+	<p>
+        <a href="mailto:gc at mandrakenospamsoft dot com">Guillaume
+        Cottenceau</a> (for <a
+        href="http://www.mandrakesoft.com/">MandrakeSoft</a>)
+	</p>
+
+<hr />
+	<h2>Legal</h2>
+
+	<p>
+        Copyright 2000-2001 MandrakeSoft.
+	</p>
+
+	<p>
+	Licensed under the Gnu GPL. In other words, that's free software,
+	of course.
+	</p>
+
+<hr />
+
+<a href="http://www.estat.com/getstats?serial=285085103803"><img
+src="http://perso.estat.com/cgi-bin/perso/285085103803?page=rpmmontut"
+border="0" alt="Estat" /></a>
+
+<p></p>
+
+<font size="-1">Last updated: Fri Aug 10 15:37:08 2001</font>
+
+<address>
+  <a href="http://validator.w3.org/check/referer">
+  <img src="../images/v3c_validated.png" height="31" width="88" align="right" border="0" alt="Valid XHTML 1.0!" />
+  </a>
+</address>
+
+</body></html>

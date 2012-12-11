@@ -1,0 +1,30 @@
+# bash completion for rpmmon
+
+_rpmmon()
+{
+	local cur prev topdir
+
+	COMPREPLY=()
+	cur=${COMP_WORDS[COMP_CWORD]}
+	prev=${COMP_WORDS[COMP_CWORD-1]}
+
+	case $prev in
+		-m)
+			_filedir -d
+			return 0
+			;;
+		-r)
+			_filedir
+			return 0
+			;;
+		-p)
+			_urpmi_packages
+			_filedir rpm
+			return 0
+			;;
+	esac
+
+	# relevant options completion
+	COMPREPLY=( $( compgen -W '-c -l -b -a -m -p -q -Q -n -u -t -v -h -s -i -V -r' -- $cur ) )
+}
+complete -F _rpmmon rpmmon
